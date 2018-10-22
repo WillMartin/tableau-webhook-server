@@ -1,6 +1,6 @@
 const express = require('express');
 
-siteCache = {}
+const siteCache = {}
 
 const listeningServer = express();
 listeningServer.use(express.json());
