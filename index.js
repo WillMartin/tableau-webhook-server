@@ -2,10 +2,10 @@ const express = require('express');
 
 const siteCache = {}
 
-const listeningServer = express();
-listeningServer.use(express.json());
+const server = express();
+server.use(express.json());
 
-listeningServer.post('/', (req, res) => {
+server.post('/', (req, res) => {
     const siteId = req.body['site-id'];
     if (siteId) {
         if (siteCache[siteId]) {
@@ -17,16 +17,12 @@ listeningServer.post('/', (req, res) => {
     } else {
         res.sendStatus(400);
     }
-    res.end();
 });
 
-const webServer = express();
-webServer.get('/*', (req, res) => {
+server.get('/*', (req, res) => {
     const siteName = req.url.slice(1);
+    res.status(200);
     res.send(siteCache[siteName]);
-    res.sendStatus(200);
-    res.end();
 });
 
-listeningServer.listen(9991, '0.0.0.0');
-webServer.listen(8080, '0.0.0.0');
+server.listen(process.env.PORT);
